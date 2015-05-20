@@ -20,6 +20,7 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        BitmapImage bitmapImage = new BitmapImage();
         public MainWindow()
         {
             InitializeComponent();
@@ -28,16 +29,19 @@ namespace WpfApplication1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             WOL(0);
+            this.Image1.Source = bitmapImage; 
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             WOL(1);
+            this.Image1.Source = bitmapImage; 
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             WOL(2);
+            this.Image1.Source = bitmapImage; 
         }
 
         private void WOL(int num)
@@ -49,6 +53,17 @@ namespace WpfApplication1
                 case 0: TextBlock1.Text = (TAC.name + "\n引き分け！もう一回勝負！"); break;
                 case 1: TextBlock1.Text = (TAC.name + "\n君の勝ちかぁ・・・、まだまだ！もう一回勝負！"); break;
                 case 2: TextBlock1.Text = (TAC.name + "\n残念！君の負けだよっ！まだまだだね・・・っ！"); break;
+            }
+            ImageSource(check);
+        }
+
+        private void ImageSource( int check)
+        {
+            switch (check)
+            {
+                case 0: bitmapImage.UriSource = new Uri(@"../Image/Drow.png"); break;
+                case 1: bitmapImage.UriSource = new Uri(@"../Image/Drow.png"); break;
+                case 2: bitmapImage.UriSource = new Uri(@"../Image/Drow.png"); break;
             }
         }
 
