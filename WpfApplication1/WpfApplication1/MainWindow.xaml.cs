@@ -59,12 +59,14 @@ namespace WpfApplication1
 
         private void ImageSource( int check)
         {
+            bitmapImage.BeginInit();//bitmapImage処理開始の合図
             switch (check)
             {
-                case 0: bitmapImage.UriSource = new Uri(@"../Image/Drow.png"); break;
-                case 1: bitmapImage.UriSource = new Uri(@"../Image/Drow.png"); break;
-                case 2: bitmapImage.UriSource = new Uri(@"../Image/Drow.png"); break;
+                case 0: bitmapImage.UriSource = new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png"); break;
+                case 1: bitmapImage.UriSource = new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png"); break;
+                case 2: bitmapImage.UriSource = new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png"); break;
             }
+            bitmapImage.EndInit();//処理完了の合図！！
         }
 
     }
