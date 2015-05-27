@@ -20,10 +20,15 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
-        BitmapImage bitmapImage = new BitmapImage();
+        BitmapImage bitmapImage = new BitmapImage(new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Start.png"));
         public MainWindow()
         {
             InitializeComponent();
+            /*
+            bitmapImage.BeginInit();//bitmapImage初期化開始の合図
+            bitmapImage.UriSource = 
+            bitmapImage.EndInit();//初期化完了の合図！！
+             * */
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -50,23 +55,22 @@ namespace WpfApplication1
             int check = TAC.Check(num);
             switch(check)
             {
-                case 0: TextBlock1.Text = (TAC.name + "\n引き分け！もう一回勝負！"); break;
-                case 1: TextBlock1.Text = (TAC.name + "\n君の勝ちかぁ・・・、まだまだ！もう一回勝負！"); break;
-                case 2: TextBlock1.Text = (TAC.name + "\n残念！君の負けだよっ！まだまだだね・・・っ！"); break;
+                case 0: TextBlock1.Text = (TAC.name + "\n引き分けです、\nもう一度勝負です"); break;
+                case 1: TextBlock1.Text = (TAC.name + "\n貴方の勝ちです、\nふふ、私もまだまだですね。"); break;
+                case 2: TextBlock1.Text = (TAC.name + "\n残念、貴方の負けです。\nまだまだですね・・・"); break;
             }
             ImageSource(check);
         }
 
         private void ImageSource( int check)
         {
-            bitmapImage.BeginInit();//bitmapImage処理開始の合図
+            
             switch (check)
             {
-                case 0: bitmapImage.UriSource = new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png"); break;
-                case 1: bitmapImage.UriSource = new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png"); break;
-                case 2: bitmapImage.UriSource = new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png"); break;
+                case 0: bitmapImage = new BitmapImage (new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png")); break;
+                case 1: bitmapImage = new BitmapImage (new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Win.png")); break;
+                case 2: bitmapImage = new BitmapImage (new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Lose.png")); break;
             }
-            bitmapImage.EndInit();//処理完了の合図！！
         }
 
     }
