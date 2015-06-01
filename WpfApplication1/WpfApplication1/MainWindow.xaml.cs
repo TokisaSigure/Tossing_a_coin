@@ -29,6 +29,8 @@ namespace WpfApplication1
             bitmapImage.UriSource = 
             bitmapImage.EndInit();//初期化完了の合図！！
              * */
+            CLass.SE SE = new CLass.SE();
+            SE.playSE(@"Music\じゃんけん.wav");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

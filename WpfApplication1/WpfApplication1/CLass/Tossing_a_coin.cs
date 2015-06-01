@@ -15,6 +15,7 @@ namespace WpfApplication1.CLass
 
         public string name;
         Random rand = new Random();
+        SE se = new SE();
 
 
         public int Check(int num)
@@ -23,9 +24,9 @@ namespace WpfApplication1.CLass
             int random = (int)rand.Next(0, 3);
             switch (random)
             {
-                case 0 : name="グー！"; break;
-                case 1: name = "チョキ！"; break;
-                case 2: name = "パー！"; break;
+                case 0: name = "グー！"; se.playSE(@"Music\ぐー.wav"); break;
+                case 1: name = "チョキ！"; se.playSE(@"Music\チョキ.wav"); break;
+                case 2: name = "パー！"; se.playSE(@"Music\パー.wav"); break;
 
             }
             switch(num-random)
