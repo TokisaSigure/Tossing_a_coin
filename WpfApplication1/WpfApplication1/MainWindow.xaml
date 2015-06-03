@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="480" Width="640">
     <Grid>
-        <Image x:Name="Image1" HorizontalAlignment="Left" Height="347" Margin="360,23,0,0" VerticalAlignment="Top" Width="272" Source="image/Start.png"/>
-        <Image Margin="154,50,178,220" Source="tnm.png" Stretch="Fill"/>
+        <Image x:Name="Image1" HorizontalAlignment="Left" Height="350" Margin="359,25,0,0" VerticalAlignment="Top" Width="272" Source="image/Start.png"/>
+        <Image Margin="175,45,157,225" Source="tnm.png" Stretch="Fill"/>
         <Button Content="グー！" HorizontalAlignment="Left" Height="25" Margin="94,375,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
         <Button Content="チョキ！" HorizontalAlignment="Left" Height="25" Margin="272,375,0,0" VerticalAlignment="Top" Width="87" RenderTransformOrigin="1.805,-1.16" Click="Button_Click_1"/>
         <Button Content="パー！" HorizontalAlignment="Left" Height="25" Margin="453,375,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_2"/>
-        <TextBlock x:Name="TextBlock1" HorizontalAlignment="Left" Height="103" Margin="192,90,0,0" TextWrapping="Wrap" Text="じゃ～んけ～ん・・・っ！" VerticalAlignment="Top" Width="177" TextAlignment="Center"/>
+        <TextBlock x:Name="TextBlock1" HorizontalAlignment="Left" Height="103" Margin="210,86,0,0" TextWrapping="Wrap" Text="じゃ～んけ～ん・・・っ！" VerticalAlignment="Top" Width="177" TextAlignment="Center"/>
 
     </Grid>
 </Window>

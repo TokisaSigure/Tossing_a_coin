@@ -69,7 +69,7 @@ namespace WpfApplication1
             
             switch (check)
             {
-                case 0: bitmapImage = new BitmapImage (new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png")); break;
+                case 0: bitmapImage = new BitmapImage(new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Drow.png")); break;
                 case 1: bitmapImage = new BitmapImage (new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Win.png")); break;
                 case 2: bitmapImage = new BitmapImage (new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Lose.png")); break;
             }
