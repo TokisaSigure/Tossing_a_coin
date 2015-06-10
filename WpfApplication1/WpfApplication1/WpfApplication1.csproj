@@ -61,8 +61,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CLass\ImageClass.cs" />
     <Compile Include="CLass\SE.cs" />
+    <Compile Include="CLass\State.cs" />
     <Compile Include="CLass\Tossing_a_coin.cs" />
+    <Compile Include="CLass\Up_Down.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -97,22 +100,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Win.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Lose.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Drow.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Start.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
