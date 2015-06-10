@@ -78,9 +78,9 @@ namespace WpfApplication1
                 int check = TAC.Check(num);
                 switch (check)
                 {
-                    case 0: TextBlock1.Text = (TAC.name + "\n引き分けです、\nもう一度勝負です"); break;
-                    case 1: TextBlock1.Text = (TAC.name + "\n貴方の勝ちです、\nふふ、私もまだまだですね。"); ChangeButton(); state.setWinner(true); break;
-                    case 2: TextBlock1.Text = (TAC.name + "\n残念、貴方の負けです。\nまだまだですね・・・"); ChangeButton(); state.setWinner(false); break;
+                    case 0: TextBlock1.Text = (TAC.name + "\n引き分けです、\nあいこで・・・"); break;
+                    case 1: TextBlock1.Text = (TAC.name + "\n貴方の勝ちです、\nでは、あっちむいて・・・"); ChangeButton(); state.setWinner(true); break;
+                    case 2: TextBlock1.Text = (TAC.name + "\n残念、貴方の負けです。\nじゃあ、あっちむいて・・・"); ChangeButton(); state.setWinner(false); break;
                 }
                 ImageSource(check);
             }
