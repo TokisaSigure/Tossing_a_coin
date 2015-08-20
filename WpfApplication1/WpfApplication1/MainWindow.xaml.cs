@@ -20,13 +20,14 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
-        BitmapImage bitmapImage = new BitmapImage(new Uri(@"C:\Users\s1223077\GitHub\Tossing_a_coin\WpfApplication1\WpfApplication1\Image\Start.png"));
-        Boolean flag = false;//指さし状態かそうじゃないかを判定
         CLass.ImageClass Image = new CLass.ImageClass();
+        BitmapImage bitmapImage = new BitmapImage();
+        Boolean flag = false;//指さし状態かそうじゃないかを判定
         CLass.State state = new CLass.State();//現在の状態を保存するためのクラス
         public MainWindow()
         {
             InitializeComponent();
+            bitmapImage = Image.InputImage("Start.png");
             CLass.SE SE = new CLass.SE();
             SE.playSE(@"Music\じゃんけん.wav");
         }
