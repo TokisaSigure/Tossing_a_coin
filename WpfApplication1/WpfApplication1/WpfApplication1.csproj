@@ -66,6 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CLass\ImageClass.cs" />
+    <Compile Include="CLass\Judge.cs" />
     <Compile Include="CLass\KinectUtil.cs" />
     <Compile Include="CLass\SE.cs" />
     <Compile Include="CLass\State.cs" />

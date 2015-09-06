@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Kinect;
 
 namespace WpfApplication1
@@ -21,11 +22,16 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        /*-----------フィールド変数------------------------*/
         CLass.ImageClass Image = new CLass.ImageClass();
         BitmapImage bitmapImage = new BitmapImage();
         Boolean flag = false;//指さし状態かそうじゃないかを判定
         CLass.State state = new CLass.State();//現在の状態を保存するためのクラス
         CLass.KinectUtil kinectUtil = new CLass.KinectUtil();
+        CLass.Judge jaudge = new CLass.Judge();
+        DispatcherTimer dispatcherTimer;
+        /*-----------フィールド変数------------------------*/
+        
         public MainWindow()
         {
             try
@@ -38,9 +44,37 @@ namespace WpfApplication1
                 Close();
             }
             InitializeComponent();
+            /*----------------------タイマー設定--------------------------*/
+            dispatcherTimer = new DispatcherTimer();//タイマー宣言
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);//重複して呼び出されるコンテンツ
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);//呼び出されるタイミング指定、1秒ごとに
+            dispatcherTimer.Start();//タイマー起動
+            /*----------------------タイマー設定ここまで-------------------*/
+
             bitmapImage = Image.InputImage("Start.png");
             CLass.SE SE = new CLass.SE();
             SE.playSE(@"Music\じゃんけん.wav");
+        }
+
+        /// <summary>
+        /// タイマー処理、繰り返し処理をしてほしいものはここに書くこと
+        /// じゃんけんの判定はここで各クラスに投げている。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (jaudge.judge(kinectUtil.DummyBudy)<5)//判定用、数字が5以下にセットされたら判定を行わせる
+            {
+                state.setCount(false);
+                WOL(jaudge.judge(kinectUtil.DummyBudy));
+                if (!state.getCount())
+                {
+                    if (flag) Up_Down(jaudge.judge(kinectUtil.DummyBudy));
+                }
+                this.Image1.Source = bitmapImage;
+                jaudge.Ans = 5;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -158,6 +192,11 @@ namespace WpfApplication1
                     ImageSource(0);
                 }
             }
+        }
+
+        private void WINDOW_CLOSED(object sender, EventArgs e)
+        {
+            kinectUtil.Kinect_Close();
         }
 
     }

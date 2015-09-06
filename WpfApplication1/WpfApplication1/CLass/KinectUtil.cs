@@ -11,6 +11,7 @@ namespace WpfApplication1.CLass
     /// <summary>
     /// キネクトに必要な変数の宣言等
     /// 基本的にはBody関連のみ取り扱うつもり
+    /// じゃんけん用の処理とかついてるけど、あくまでおまけなんだからね！・・・おまけってことにしてください（切実
     /// </summary>
     class KinectUtil
     {
@@ -39,6 +40,11 @@ namespace WpfApplication1.CLass
         /// </summary>
         private List<Tuple<JointType, JointType>> bones;
 
+        /// <summary>
+        /// ボディ情報を格納するための変数
+        /// </summary>
+        Body dummyBody = null;
+
         /*---------------------------------------------------------------
         以下、ゲッタ、セッタの宣言
         ---------------------------------------------------------------*/
@@ -65,6 +71,11 @@ namespace WpfApplication1.CLass
             set { this.bones = value; }
             get { return bones; }
         }
+        public Body DummyBudy
+        {
+            set { this.dummyBody = value; }
+            get { return dummyBody; }
+        }
 
         /*-----------------------------------------------------------
         以下、テストメソッド
@@ -74,6 +85,8 @@ namespace WpfApplication1.CLass
         {
             ///キネクト本体の接続を確保、たしか接続されてない場合はfalseとかになった記憶
             kinectSensor = KinectSensor.GetDefault();
+            //キネクト開始
+            kinectSensor.Open();
             ///bodyを格納するための配列作成
             bodies = new Body[kinectSensor.BodyFrameSource.BodyCount];
             ///ボディリーダーを開く
@@ -103,7 +116,7 @@ namespace WpfApplication1.CLass
 
                 if (dataReceived)
                 {
-                    foreach (Body body in this.bodies)
+                   /* foreach (Body body in this.bodies)
                     {
                         if (body.IsTracked)
                         {
@@ -125,15 +138,14 @@ namespace WpfApplication1.CLass
                                 }
                             }
                         }
-                    }
+                    }*/
 
                     // ボディデータを取得する
                     bodyFrame.GetAndRefreshBodyData(bodies);
                     //認識しているBodyに対して
                     foreach (var body in bodies.Where(b => b.IsTracked))
                     {
-                        //左手のX座標を取得
-//                        System.Diagnostics.Debug.WriteLine("X=" + body.Joints[JointType.HandLeft].Position.X);
+                        dummyBody = body;
                         if (body.HandRightState == HandState.Closed)
                         {
                             System.Diagnostics.Debug.WriteLine("グー");
@@ -149,6 +161,12 @@ namespace WpfApplication1.CLass
                     }
                 }
             }
+        }
+
+        public void Kinect_Close()
+        {
+            bodyFrameReader.Dispose();
+            kinectSensor.Close();
         }
     }
 }
