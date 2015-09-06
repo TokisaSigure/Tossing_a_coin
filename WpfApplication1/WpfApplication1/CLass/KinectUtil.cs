@@ -91,7 +91,7 @@ namespace WpfApplication1.CLass
             bodies = new Body[kinectSensor.BodyFrameSource.BodyCount];
             ///ボディリーダーを開く
             bodyFrameReader = this.kinectSensor.BodyFrameSource.OpenReader();
-            bodyFrameReader.FrameArrived += bodyFrameReader_FrameArrived;
+            bodyFrameReader.FrameArrived += bodyFrameReader_FrameArrived;//ここをメインに隔離した方がいいかもネ
         }
 
         private void bodyFrameReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
@@ -116,32 +116,9 @@ namespace WpfApplication1.CLass
 
                 if (dataReceived)
                 {
-                   /* foreach (Body body in this.bodies)
-                    {
-                        if (body.IsTracked)
-                        {
-                            IReadOnlyDictionary<JointType, Joint> joints = body.Joints;
-                            // convert the joint points to depth (display) space
-                            // ジョイントポイントを深度（ディスプレイ）スペースに変換
-                            Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
-
-                            foreach (JointType jointType in joints.Keys)
-                            {
-                                // sometimes the depth(Z) of an inferred joint may show as negative
-                                // 時々推測されるjointの深さが負として表示される場合があります
-                                // clamp down to 0.1f to prevent coordinatemapper from returning (-Infinity, -Infinity)
-                                // 0.1フレーム前のcoordinatemapperに戻り、チェックする(負数の防止？)
-                                CameraSpacePoint position = joints[jointType].Position;
-                                if (position.Z < 0)
-                                {
-                                    position.Z = InferredZPositionClamp;
-                                }
-                            }
-                        }
-                    }*/
-
                     // ボディデータを取得する
                     bodyFrame.GetAndRefreshBodyData(bodies);
+                    /*
                     //認識しているBodyに対して
                     foreach (var body in bodies.Where(b => b.IsTracked))
                     {
@@ -158,7 +135,7 @@ namespace WpfApplication1.CLass
                         {
                             System.Diagnostics.Debug.WriteLine("チョキ");
                         }
-                    }
+                    }*/
                 }
             }
         }
