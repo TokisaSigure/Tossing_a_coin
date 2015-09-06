@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Kinect;
 
 namespace WpfApplication1
 {
@@ -24,8 +25,18 @@ namespace WpfApplication1
         BitmapImage bitmapImage = new BitmapImage();
         Boolean flag = false;//指さし状態かそうじゃないかを判定
         CLass.State state = new CLass.State();//現在の状態を保存するためのクラス
+        CLass.KinectUtil kinectUtil = new CLass.KinectUtil();
         public MainWindow()
         {
+            try
+            {
+                kinectUtil.kinectInitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
             InitializeComponent();
             bitmapImage = Image.InputImage("Start.png");
             CLass.SE SE = new CLass.SE();
