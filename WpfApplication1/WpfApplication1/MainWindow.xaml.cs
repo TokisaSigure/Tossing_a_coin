@@ -50,6 +50,13 @@ namespace WpfApplication1
             SE.playSE(@"Music\じゃんけん.wav");
         }
 
+        #region bodyFrameReader_FrameArrived
+        /// <summary>
+        /// 再起処理部分、ゲーム本体の処理はここで行っている
+        /// 他クラスや関数の呼び出しなどを主に担当
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bodyFrameReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             bool dataReceived = false;
@@ -77,39 +84,46 @@ namespace WpfApplication1
                     //認識しているBodyに対して
                     foreach (var body in kinectUtil.Bodies.Where(b => b.IsTracked))
                     {
-                        if (body.HandRightState == HandState.Closed)
+                        if (Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y) <= 0.09)
+                            jaudge.Ready = true;//手を頭の近くまで上げたら、判定開始
+                        //System.Diagnostics.Debug.WriteLine(Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y));
+                        if (jaudge.Ready)
                         {
-                            System.Diagnostics.Debug.WriteLine("グー");
-                            ++jaudge.Count_Closed;
-                            if(jaudge.Count_Closed >= jaudge.LIMIT)
+                            if (body.HandRightState == HandState.Closed)
                             {
-                                WOL(0);
+                                System.Diagnostics.Debug.WriteLine("グー");
+                                ++jaudge.Count_Closed;
+                                if (jaudge.Count_Closed >= jaudge.LIMIT)
+                                {
+                                    WOL(0);
+                                }
                             }
-                        }
-                        if (body.HandRightState == HandState.Open)
-                        {
-                            System.Diagnostics.Debug.WriteLine("パー");
-                            ++jaudge.Count_Open;
-                            if (jaudge.Count_Open >= jaudge.LIMIT)
+                            if (body.HandRightState == HandState.Open)
                             {
-                                WOL(2);
-                            }
+                                System.Diagnostics.Debug.WriteLine("パー");
+                                ++jaudge.Count_Open;
+                                if (jaudge.Count_Open >= jaudge.LIMIT)
+                                {
+                                    WOL(2);
+                                }
 
-                        }
-                        if (body.HandRightState == HandState.Lasso)
-                        {
-                            System.Diagnostics.Debug.WriteLine("チョキ");
-                            ++jaudge.Count_Lasso;
-                            if (jaudge.Count_Lasso >= jaudge.LIMIT)
-                            {
-                                WOL(1);
                             }
+                            if (body.HandRightState == HandState.Lasso)
+                            {
+                                System.Diagnostics.Debug.WriteLine("チョキ");
+                                ++jaudge.Count_Lasso;
+                                if (jaudge.Count_Lasso >= jaudge.LIMIT)
+                                {
+                                    WOL(1);
+                                }
 
+                            }
                         }
                     }
                 }
             }
         }
+        #endregion
 
         #region ボタン処理群　いずれ取り除く予定
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -153,6 +167,7 @@ namespace WpfApplication1
 
         #endregion
 
+        #region WOL
         /// <summary>
         /// じゃんけん判定用処理を呼び出すための関数
         /// Judgeクラスの変数リセットなどもここで行う
@@ -175,6 +190,9 @@ namespace WpfApplication1
                 this.Image1.Source = bitmapImage;
             }
         }
+        #endregion
+
+        #region 画像変更処理関数,ImageSource
 
         private void ImageSource( int check)
         {
@@ -186,6 +204,10 @@ namespace WpfApplication1
                 case 2: bitmapImage = Image.InputImage("Lose.png"); break;
             }
         }
+
+        #endregion
+
+        #region ChangeButton(後日削除予定)
 
         private void ChangeButton()
         {
@@ -208,10 +230,11 @@ namespace WpfApplication1
             state.setCount(true);//両方から呼び出される関数なので、ここでジャンケンと向きのスイッチが切り替わるはず
         }
 
+        #endregion
+
         private void Up_Down(int num)//あっち向いてホイ、処理関数
         {
             CLass.Up_Down up_down = new CLass.Up_Down();
-            /*ここに処理を書いてぇぇぇぇぇぇぇぇ！！！！*/
             if (flag) 
             {
                 if (up_down.Checking(num))

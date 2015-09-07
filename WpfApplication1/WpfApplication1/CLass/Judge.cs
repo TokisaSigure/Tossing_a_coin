@@ -13,8 +13,9 @@ namespace WpfApplication1.CLass
     /// </summary>
     class Judge
     {
-        int ans = 5, count_Closed = 0, count_Open = 0, count_Lasso = 0;//判定用の変数,グーカウント、パーカウント、チョキカウント
         const int limit = 15;//判定基準
+        int ans = 5, count_Closed = 0, count_Open = 0, count_Lasso = 0;//判定用の変数,グーカウント、パーカウント、チョキカウント
+        bool ready = false;
         /*----------------------------------------------------------------------
          ゲッタ、セッタ宣言
         ----------------------------------------------------------------------*/
@@ -46,6 +47,11 @@ namespace WpfApplication1.CLass
         {
             set { }
             get { return limit; }
+        }
+        public bool Ready
+        {
+            set { this.ready = value; }
+            get { return ready; }
         }
 
         public int judge(Body body)
@@ -83,7 +89,7 @@ namespace WpfApplication1.CLass
         /// </summary>
         public void Reset()
         {
-            ans = 0; count_Closed = 0; count_Lasso = 0; count_Open = 0;
+            ans = 0; count_Closed = 0; count_Lasso = 0; count_Open = 0; ready = false;
         }
 
     }
