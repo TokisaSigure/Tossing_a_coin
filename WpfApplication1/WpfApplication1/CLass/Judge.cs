@@ -8,12 +8,13 @@ using Microsoft.Kinect;
 namespace WpfApplication1.CLass
 {
     /// <summary>
-    /// キネクトでの入力判定を行う
+    /// 入力されたかの判定をするクラス
+    /// 変数群と思ってもらっても大丈夫かもしれない
     /// </summary>
     class Judge
     {
-        int ans = 0, count_Closed = 0, count_Open = 0, count_Lasso = 0;//判定用の変数,グーカウント、パーカウント、チョキカウント
-        const int limit = 30;//判定基準
+        int ans = 5, count_Closed = 0, count_Open = 0, count_Lasso = 0;//判定用の変数,グーカウント、パーカウント、チョキカウント
+        const int limit = 15;//判定基準
         /*----------------------------------------------------------------------
          ゲッタ、セッタ宣言
         ----------------------------------------------------------------------*/
@@ -23,10 +24,34 @@ namespace WpfApplication1.CLass
             get { return ans; }
         }
 
+        public int Count_Closed
+        {
+            set { this.count_Closed = value; }
+            get { return count_Closed; }
+        }
+
+        public int Count_Open
+        {
+            set { this.count_Open = value; }
+            get { return count_Open; }
+        }
+
+        public int Count_Lasso
+        {
+            set { this.count_Lasso = value; }
+            get { return count_Lasso; }
+        }
+
+        public int LIMIT
+        {
+            set { }
+            get { return limit; }
+        }
+
         public int judge(Body body)
         {
 
-            if (body.HandRightState == HandState.Closed && ans == 0)
+            if (body.HandRightState == HandState.Closed)
             {
                 System.Diagnostics.Debug.WriteLine("グー");
                 ++count_Closed;
@@ -51,5 +76,15 @@ namespace WpfApplication1.CLass
         {
             return num > limit ? num : 5;//都合上5を返す。(0だと判定が出てしまうため)
         }
+
+        /// <summary>
+        /// 変数リセット用関数
+        /// 呼び出せばクラス内部の変数を0で初期化する
+        /// </summary>
+        public void Reset()
+        {
+            ans = 0; count_Closed = 0; count_Lasso = 0; count_Open = 0;
+        }
+
     }
 }

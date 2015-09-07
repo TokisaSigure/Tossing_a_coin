@@ -29,54 +29,89 @@ namespace WpfApplication1
         CLass.State state = new CLass.State();//現在の状態を保存するためのクラス
         CLass.KinectUtil kinectUtil = new CLass.KinectUtil();
         CLass.Judge jaudge = new CLass.Judge();
-        DispatcherTimer dispatcherTimer;
         /*-----------フィールド変数------------------------*/
         
         public MainWindow()
         {
+            InitializeComponent();
             try
             {
                 kinectUtil.kinectInitializeComponent();
+                kinectUtil.BFR.FrameArrived += bodyFrameReader_FrameArrived;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 Close();
             }
-            InitializeComponent();
-            /*----------------------タイマー設定--------------------------*/
-            dispatcherTimer = new DispatcherTimer();//タイマー宣言
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);//重複して呼び出されるコンテンツ
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);//呼び出されるタイミング指定、1秒ごとに
-            dispatcherTimer.Start();//タイマー起動
-            /*----------------------タイマー設定ここまで-------------------*/
 
             bitmapImage = Image.InputImage("Start.png");
             CLass.SE SE = new CLass.SE();
             SE.playSE(@"Music\じゃんけん.wav");
         }
 
-        /// <summary>
-        /// タイマー処理、繰り返し処理をしてほしいものはここに書くこと
-        /// じゃんけんの判定はここで各クラスに投げている。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void bodyFrameReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
-            if (jaudge.judge(kinectUtil.DummyBudy)<5)//判定用、数字が5以下にセットされたら判定を行わせる
+            bool dataReceived = false;
+
+            using (var bodyFrame = e.FrameReference.AcquireFrame())
             {
-                state.setCount(false);
-                WOL(jaudge.judge(kinectUtil.DummyBudy));
-                if (!state.getCount())
+                if (bodyFrame == null)
                 {
-                    if (flag) Up_Down(jaudge.judge(kinectUtil.DummyBudy));
+                    return;
                 }
-                this.Image1.Source = bitmapImage;
-                jaudge.Ans = 5;
+                else
+                {
+                    if (kinectUtil.Bodies == null)
+                    {
+                        kinectUtil.Bodies = new Body[bodyFrame.BodyCount];
+                    }
+                    bodyFrame.GetAndRefreshBodyData(kinectUtil.Bodies);
+                    dataReceived = true;
+                }
+
+                if (dataReceived)
+                {
+                    // ボディデータを取得する
+                    bodyFrame.GetAndRefreshBodyData(kinectUtil.Bodies);
+                    //認識しているBodyに対して
+                    foreach (var body in kinectUtil.Bodies.Where(b => b.IsTracked))
+                    {
+                        if (body.HandRightState == HandState.Closed)
+                        {
+                            System.Diagnostics.Debug.WriteLine("グー");
+                            ++jaudge.Count_Closed;
+                            if(jaudge.Count_Closed >= jaudge.LIMIT)
+                            {
+                                WOL(0);
+                            }
+                        }
+                        if (body.HandRightState == HandState.Open)
+                        {
+                            System.Diagnostics.Debug.WriteLine("パー");
+                            ++jaudge.Count_Open;
+                            if (jaudge.Count_Open >= jaudge.LIMIT)
+                            {
+                                WOL(2);
+                            }
+
+                        }
+                        if (body.HandRightState == HandState.Lasso)
+                        {
+                            System.Diagnostics.Debug.WriteLine("チョキ");
+                            ++jaudge.Count_Lasso;
+                            if (jaudge.Count_Lasso >= jaudge.LIMIT)
+                            {
+                                WOL(1);
+                            }
+
+                        }
+                    }
+                }
             }
         }
 
+        #region ボタン処理群　いずれ取り除く予定
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             state.setCount(false);
@@ -116,6 +151,13 @@ namespace WpfApplication1
             this.Image1.Source = bitmapImage;
         }
 
+        #endregion
+
+        /// <summary>
+        /// じゃんけん判定用処理を呼び出すための関数
+        /// Judgeクラスの変数リセットなどもここで行う
+        /// </summary>
+        /// <param name="num"></param>
         private void WOL(int num)
         {
             if (!flag)
@@ -128,7 +170,9 @@ namespace WpfApplication1
                     case 1: TextBlock1.Text = (TAC.name + "\n貴方の勝ちです、\nでは、あっちむいて・・・"); ChangeButton(); state.setWinner(true); break;
                     case 2: TextBlock1.Text = (TAC.name + "\n残念、貴方の負けです。\nじゃあ、あっちむいて・・・"); ChangeButton(); state.setWinner(false); break;
                 }
+                jaudge.Reset();
                 ImageSource(check);
+                this.Image1.Source = bitmapImage;
             }
         }
 

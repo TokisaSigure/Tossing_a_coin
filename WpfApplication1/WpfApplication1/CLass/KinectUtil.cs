@@ -91,10 +91,9 @@ namespace WpfApplication1.CLass
             bodies = new Body[kinectSensor.BodyFrameSource.BodyCount];
             ///ボディリーダーを開く
             bodyFrameReader = this.kinectSensor.BodyFrameSource.OpenReader();
-            bodyFrameReader.FrameArrived += bodyFrameReader_FrameArrived;//ここをメインに隔離した方がいいかもネ
         }
 
-        private void bodyFrameReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
+        public void bodyFrameReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             bool dataReceived = false;
 
@@ -118,6 +117,10 @@ namespace WpfApplication1.CLass
                 {
                     // ボディデータを取得する
                     bodyFrame.GetAndRefreshBodyData(bodies);
+                    foreach (var body in bodies.Where(b => b.IsTracked))
+                    {
+                        DummyBudy = body;
+                    }
                     /*
                     //認識しているBodyに対して
                     foreach (var body in bodies.Where(b => b.IsTracked))
