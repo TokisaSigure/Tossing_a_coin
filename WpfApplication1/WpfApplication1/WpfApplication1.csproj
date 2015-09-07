@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Kinect, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v2.0_1409\Assemblies\Microsoft.Kinect.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -62,6 +66,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CLass\ImageClass.cs" />
+    <Compile Include="CLass\Judge.cs" />
+    <Compile Include="CLass\KinectUtil.cs" />
     <Compile Include="CLass\SE.cs" />
     <Compile Include="CLass\State.cs" />
     <Compile Include="CLass\Tossing_a_coin.cs" />

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Microsoft.Kinect;
 
 namespace WpfApplication1
 {
@@ -20,18 +22,96 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        /*-----------フィールド変数------------------------*/
         CLass.ImageClass Image = new CLass.ImageClass();
         BitmapImage bitmapImage = new BitmapImage();
         Boolean flag = false;//指さし状態かそうじゃないかを判定
         CLass.State state = new CLass.State();//現在の状態を保存するためのクラス
+        CLass.KinectUtil kinectUtil = new CLass.KinectUtil();
+        CLass.Judge jaudge = new CLass.Judge();
+        /*-----------フィールド変数------------------------*/
+        
         public MainWindow()
         {
             InitializeComponent();
+            try
+            {
+                kinectUtil.kinectInitializeComponent();
+                kinectUtil.BFR.FrameArrived += bodyFrameReader_FrameArrived;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
+
             bitmapImage = Image.InputImage("Start.png");
             CLass.SE SE = new CLass.SE();
             SE.playSE(@"Music\じゃんけん.wav");
         }
 
+        private void bodyFrameReader_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
+        {
+            bool dataReceived = false;
+
+            using (var bodyFrame = e.FrameReference.AcquireFrame())
+            {
+                if (bodyFrame == null)
+                {
+                    return;
+                }
+                else
+                {
+                    if (kinectUtil.Bodies == null)
+                    {
+                        kinectUtil.Bodies = new Body[bodyFrame.BodyCount];
+                    }
+                    bodyFrame.GetAndRefreshBodyData(kinectUtil.Bodies);
+                    dataReceived = true;
+                }
+
+                if (dataReceived)
+                {
+                    // ボディデータを取得する
+                    bodyFrame.GetAndRefreshBodyData(kinectUtil.Bodies);
+                    //認識しているBodyに対して
+                    foreach (var body in kinectUtil.Bodies.Where(b => b.IsTracked))
+                    {
+                        if (body.HandRightState == HandState.Closed)
+                        {
+                            System.Diagnostics.Debug.WriteLine("グー");
+                            ++jaudge.Count_Closed;
+                            if(jaudge.Count_Closed >= jaudge.LIMIT)
+                            {
+                                WOL(0);
+                            }
+                        }
+                        if (body.HandRightState == HandState.Open)
+                        {
+                            System.Diagnostics.Debug.WriteLine("パー");
+                            ++jaudge.Count_Open;
+                            if (jaudge.Count_Open >= jaudge.LIMIT)
+                            {
+                                WOL(2);
+                            }
+
+                        }
+                        if (body.HandRightState == HandState.Lasso)
+                        {
+                            System.Diagnostics.Debug.WriteLine("チョキ");
+                            ++jaudge.Count_Lasso;
+                            if (jaudge.Count_Lasso >= jaudge.LIMIT)
+                            {
+                                WOL(1);
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        #region ボタン処理群　いずれ取り除く予定
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             state.setCount(false);
@@ -71,6 +151,13 @@ namespace WpfApplication1
             this.Image1.Source = bitmapImage;
         }
 
+        #endregion
+
+        /// <summary>
+        /// じゃんけん判定用処理を呼び出すための関数
+        /// Judgeクラスの変数リセットなどもここで行う
+        /// </summary>
+        /// <param name="num"></param>
         private void WOL(int num)
         {
             if (!flag)
@@ -83,7 +170,9 @@ namespace WpfApplication1
                     case 1: TextBlock1.Text = (TAC.name + "\n貴方の勝ちです、\nでは、あっちむいて・・・"); ChangeButton(); state.setWinner(true); break;
                     case 2: TextBlock1.Text = (TAC.name + "\n残念、貴方の負けです。\nじゃあ、あっちむいて・・・"); ChangeButton(); state.setWinner(false); break;
                 }
+                jaudge.Reset();
                 ImageSource(check);
+                this.Image1.Source = bitmapImage;
             }
         }
 
@@ -147,6 +236,11 @@ namespace WpfApplication1
                     ImageSource(0);
                 }
             }
+        }
+
+        private void WINDOW_CLOSED(object sender, EventArgs e)
+        {
+            kinectUtil.Kinect_Close();
         }
 
     }
