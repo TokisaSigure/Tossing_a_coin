@@ -13,7 +13,7 @@ namespace WpfApplication1.CLass
     /// </summary>
     class Judge
     {
-        const int limit = 15;//判定基準
+        const int limit = 10;//判定基準
         int ans = 5, count_Closed = 0, count_Open = 0, count_Lasso = 0;//判定用の変数,グーカウント、パーカウント、チョキカウント
         bool ready = false;
         /*----------------------------------------------------------------------

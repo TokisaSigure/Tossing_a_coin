@@ -65,10 +65,12 @@ namespace WpfApplication1
             {
                 if (bodyFrame == null)
                 {
+                    Button_on();
                     return;
                 }
                 else
                 {
+                    Button_off();
                     if (kinectUtil.Bodies == null)
                     {
                         kinectUtil.Bodies = new Body[bodyFrame.BodyCount];
@@ -84,7 +86,7 @@ namespace WpfApplication1
                     //認識しているBodyに対して
                     foreach (var body in kinectUtil.Bodies.Where(b => b.IsTracked))
                     {
-                        if (Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y) <= 0.09)
+                        if (Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y) <= 0.05)
                             jaudge.Ready = true;//手を頭の近くまで上げたら、判定開始
                         //System.Diagnostics.Debug.WriteLine(Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y));
                         if (jaudge.Ready)
@@ -120,6 +122,7 @@ namespace WpfApplication1
                             }
                         }
                     }
+                    this.testBox.Text = jaudge.Ready.ToString(); //デバッグ用処理、完成品したときは消すこと
                 }
             }
         }
@@ -181,12 +184,13 @@ namespace WpfApplication1
                 int check = TAC.Check(num);
                 switch (check)
                 {
-                    case 0: TextBlock1.Text = (TAC.name + "\n引き分けです、\nあいこで・・・"); break;
-                    case 1: TextBlock1.Text = (TAC.name + "\n貴方の勝ちです、\nでは、あっちむいて・・・"); ChangeButton(); state.setWinner(true); break;
-                    case 2: TextBlock1.Text = (TAC.name + "\n残念、貴方の負けです。\nじゃあ、あっちむいて・・・"); ChangeButton(); state.setWinner(false); break;
+                    case 0: TextBlock1.Text = (Properties.Resources.me + TAC.name + "\n引き分けです、\nあいこで・・・"); break;
+                    case 1: TextBlock1.Text = (Properties.Resources.me + TAC.name + "\n貴方の勝ちです、\nでは、あっちむいて・・・"); ChangeButton(); state.setWinner(true); break;
+                    case 2: TextBlock1.Text = (Properties.Resources.me + TAC.name + "\n残念、貴方の負けです。\nじゃあ、あっちむいて・・・"); ChangeButton(); state.setWinner(false); break;
                 }
                 jaudge.Reset();
                 ImageSource(check);
+                jaudge.Ready = false;//便宜的に追加、あっち向いてホイ実装時に削除？残す？流れ考える必要あり
                 this.Image1.Source = bitmapImage;
             }
         }
@@ -217,7 +221,7 @@ namespace WpfApplication1
                 this.Button2.Content = "した！";
                 this.Button3.Content = "みぎ！";
                 this.Button4.Visibility = Visibility.Visible;
-                flag = !flag;//フラグ反転処理
+                //flag = !flag;//フラグ反転処理、現在はデバッグ用にコメント化している
             }
             else
             {
@@ -230,6 +234,24 @@ namespace WpfApplication1
             state.setCount(true);//両方から呼び出される関数なので、ここでジャンケンと向きのスイッチが切り替わるはず
         }
 
+        #endregion
+
+        #region ボタン表示
+        void Button_on()
+        {
+            this.Button1.Visibility = Visibility.Visible;
+            this.Button2.Visibility = Visibility.Visible;
+            this.Button3.Visibility = Visibility.Visible;
+        }
+        #endregion
+
+        #region ボタン非表示
+        void Button_off()
+        {
+            this.Button1.Visibility = Visibility.Hidden;
+            this.Button2.Visibility = Visibility.Hidden;
+            this.Button3.Visibility = Visibility.Hidden;
+        }
         #endregion
 
         private void Up_Down(int num)//あっち向いてホイ、処理関数

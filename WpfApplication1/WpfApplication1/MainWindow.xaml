@@ -10,6 +10,7 @@
         <Button x:Name="Button3" Content="パー！" HorizontalAlignment="Left" Height="25" Margin="453,375,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_2"/>
         <TextBlock x:Name="TextBlock1" HorizontalAlignment="Left" Height="103" Margin="210,86,0,0" TextWrapping="Wrap" Text="じゃ～んけ～ん・・・っ！" VerticalAlignment="Top" Width="177" TextAlignment="Center"/>
         <Button x:Name="Button4" Content="うえ！" HorizontalAlignment="Left" Height="25" Margin="272,280,0,0" VerticalAlignment="Top" Width="87" RenderTransformOrigin="1.805,-1.16" Click="Button_Click_4" Visibility="Hidden"/>
+        <TextBlock x:Name="testBox" HorizontalAlignment="Left" Height="34" Margin="232,267,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="58"/>
 
     </Grid>
 </Window>
