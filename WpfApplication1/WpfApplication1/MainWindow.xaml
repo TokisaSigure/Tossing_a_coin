@@ -3,14 +3,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="480" Width="640" Closed="WINDOW_CLOSED">
     <Grid>
-        <Image x:Name="Image1" HorizontalAlignment="Left" Height="350" Margin="359,25,0,0" VerticalAlignment="Top" Width="272" Source="image/Start.png"/>
-        <Image Margin="175,45,157,225" Source="tnm.png" Stretch="Fill"/>
-        <Button x:Name="Button1" Content="グー！" HorizontalAlignment="Left" Height="25" Margin="94,375,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
-        <Button x:Name="Button2" Content="チョキ！" HorizontalAlignment="Left" Height="25" Margin="272,375,0,0" VerticalAlignment="Top" Width="87" RenderTransformOrigin="1.805,-1.16" Click="Button_Click_1"/>
-        <Button x:Name="Button3" Content="パー！" HorizontalAlignment="Left" Height="25" Margin="453,375,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_2"/>
-        <TextBlock x:Name="TextBlock1" HorizontalAlignment="Left" Height="103" Margin="210,86,0,0" TextWrapping="Wrap" Text="じゃ～んけ～ん・・・っ！" VerticalAlignment="Top" Width="177" TextAlignment="Center"/>
-        <Button x:Name="Button4" Content="うえ！" HorizontalAlignment="Left" Height="25" Margin="272,280,0,0" VerticalAlignment="Top" Width="87" RenderTransformOrigin="1.805,-1.16" Click="Button_Click_4" Visibility="Hidden"/>
-        <TextBlock x:Name="testBox" HorizontalAlignment="Left" Height="34" Margin="232,267,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="58"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="Button4" Content="うえ！" HorizontalAlignment="Left" Height="25" Margin="25,280,0,0" VerticalAlignment="Top" Width="87" RenderTransformOrigin="1.805,-1.16" Click="Button_Click_4" Visibility="Hidden" Grid.Column="1"/>
+        <TabControl HorizontalAlignment="Left" Height="450" Margin="-4,-5,0,0" VerticalAlignment="Top" Width="632" Grid.ColumnSpan="2">
+            <TabItem Header="ゲーム画面">
+                <Grid Background="#FFE5E5E5">
+                    <Image x:Name="Image1" HorizontalAlignment="Left" Height="413" Margin="342,10,-50,0" VerticalAlignment="Top" Width="334" Source="image/Start.png"/>
+                    <Image Margin="158,32,168,212" Source="tnm.png" Stretch="Fill"/>
+                    <TextBlock x:Name="TextBlock1" HorizontalAlignment="Left" Height="104" Margin="187,68,0,0" TextWrapping="Wrap" Text="じゃ～んけ～ん・・・っ！" VerticalAlignment="Top" Width="177" TextAlignment="Center"/>
+                    <TextBlock x:Name="testBox" HorizontalAlignment="Left" Height="34" Margin="187,246,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="58"/>
+                    <Button x:Name="Button1" Content="グー！" HorizontalAlignment="Left" Height="25" Margin="33,335,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click"/>
+                    <Button x:Name="Button2" Content="チョキ！" HorizontalAlignment="Left" Height="25" Margin="158,335,0,0" VerticalAlignment="Top" Width="87" RenderTransformOrigin="1.805,-1.16" Click="Button_Click_1"/>
+                    <Button x:Name="Button3" Content="パー！" HorizontalAlignment="Left" Height="25" Margin="293,335,0,0" VerticalAlignment="Top" Width="87" Click="Button_Click_2"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="デバッグ画面">
+                <Grid x:Name="boneIndex" Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="597*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="ボーン取得数" HorizontalAlignment="Left" Height="30" Margin="0,5,0,0" VerticalAlignment="Top" Width="77" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="BoneIndex" HorizontalAlignment="Left" Height="25" Margin="50,10,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="63" Grid.Column="3"/>
+                    <Label Content="受付手" HorizontalAlignment="Left" Height="25" Margin="0,40,0,0" VerticalAlignment="Top" Width="45" Grid.Column="3"/>
+                    <TextBlock x:Name="UserHand" Grid.Column="3" HorizontalAlignment="Left" Height="25" Margin="50,45,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="63"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>

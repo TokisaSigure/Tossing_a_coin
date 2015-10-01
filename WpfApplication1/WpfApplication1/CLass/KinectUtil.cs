@@ -121,24 +121,6 @@ namespace WpfApplication1.CLass
                     {
                         DummyBudy = body;
                     }
-                    /*
-                    //認識しているBodyに対して
-                    foreach (var body in bodies.Where(b => b.IsTracked))
-                    {
-                        dummyBody = body;
-                        if (body.HandRightState == HandState.Closed)
-                        {
-                            System.Diagnostics.Debug.WriteLine("グー");
-                        }
-                        if (body.HandRightState == HandState.Open)
-                        {
-                            System.Diagnostics.Debug.WriteLine("パー");
-                        }
-                        if (body.HandRightState == HandState.Lasso)
-                        {
-                            System.Diagnostics.Debug.WriteLine("チョキ");
-                        }
-                    }*/
                 }
             }
         }

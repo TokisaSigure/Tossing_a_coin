@@ -77,6 +77,7 @@ namespace WpfApplication1
                     }
                     bodyFrame.GetAndRefreshBodyData(kinectUtil.Bodies);
                     dataReceived = true;
+                    BoneIndex.Text = bodyFrame.BodyCount.ToString();
                 }
 
                 if (dataReceived)
@@ -86,12 +87,13 @@ namespace WpfApplication1
                     //認識しているBodyに対して
                     foreach (var body in kinectUtil.Bodies.Where(b => b.IsTracked))
                     {
-                        if (Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y) <= 0.05)
+                        if (Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y) <= 0.05
+                            || Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandLeft].Position.Y) <= 0.05 )
                             jaudge.Ready = true;//手を頭の近くまで上げたら、判定開始
                         //System.Diagnostics.Debug.WriteLine(Math.Abs(body.Joints[JointType.Head].Position.Y - body.Joints[JointType.HandRight].Position.Y));
                         if (jaudge.Ready)
                         {
-                            if (body.HandRightState == HandState.Closed)
+                            if (body.HandRightState == HandState.Closed || body.HandLeftState == HandState.Closed)
                             {
                                 System.Diagnostics.Debug.WriteLine("グー");
                                 ++jaudge.Count_Closed;
@@ -100,7 +102,7 @@ namespace WpfApplication1
                                     WOL(0);
                                 }
                             }
-                            if (body.HandRightState == HandState.Open)
+                            if (body.HandRightState == HandState.Open || body.HandLeftState == HandState.Open)
                             {
                                 System.Diagnostics.Debug.WriteLine("パー");
                                 ++jaudge.Count_Open;
@@ -110,7 +112,7 @@ namespace WpfApplication1
                                 }
 
                             }
-                            if (body.HandRightState == HandState.Lasso)
+                            if (body.HandRightState == HandState.Lasso || body.HandLeftState == HandState.Lasso)
                             {
                                 System.Diagnostics.Debug.WriteLine("チョキ");
                                 ++jaudge.Count_Lasso;
@@ -121,6 +123,7 @@ namespace WpfApplication1
 
                             }
                         }
+                        UserHand.Text = body.HandRightState.ToString();
                     }
                     this.testBox.Text = jaudge.Ready.ToString(); //デバッグ用処理、完成品したときは消すこと
                 }
