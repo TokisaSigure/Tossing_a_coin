@@ -119,6 +119,6 @@
   </resheader>
   <data name="me" xml:space="preserve">
     <value>私は</value>
-    <comment>PC一人称</comment>
+    <comment>NPC一人称</comment>
   </data>
 </root>

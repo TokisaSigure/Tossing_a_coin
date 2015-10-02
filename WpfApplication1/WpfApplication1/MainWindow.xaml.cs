@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Kinect;
+using Microsoft.Kinect.Face;//フェイストラッキング追加用
 
 namespace WpfApplication1
 {
@@ -29,6 +30,7 @@ namespace WpfApplication1
         CLass.State state = new CLass.State();//現在の状態を保存するためのクラス
         CLass.KinectUtil kinectUtil = new CLass.KinectUtil();
         CLass.Judge jaudge = new CLass.Judge();
+
         /*-----------フィールド変数------------------------*/
         
         public MainWindow()
@@ -38,6 +40,7 @@ namespace WpfApplication1
             {
                 kinectUtil.kinectInitializeComponent();
                 kinectUtil.BFR.FrameArrived += bodyFrameReader_FrameArrived;
+                kinectUtil.FFR.FrameArrived += FFR_FrameArrived;
             }
             catch (Exception ex)
             {
@@ -48,6 +51,18 @@ namespace WpfApplication1
             bitmapImage = Image.InputImage("Start.png");
             CLass.SE SE = new CLass.SE();
             SE.playSE(@"Music\じゃんけん.wav");
+        }
+
+        void FFR_FrameArrived(object sender, FaceFrameArrivedEventArgs e)
+        {
+            using(FaceFrame faceFrame = e.FrameReference.AcquireFrame())
+            {
+                if(faceFrame != null)
+                    if(faceFrame.FaceFrameResult != null)
+                    {
+                        IReadOnlyDictionary<FacePointType, PointF> facePoint = faceFrame.FaceFrameResult.FacePointsInColorSpace;
+                    }
+            }
         }
 
         #region bodyFrameReader_FrameArrived

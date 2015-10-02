@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Kinect;
+using Microsoft.Kinect.Face;
 
 namespace WpfApplication1.CLass
 {
     /// <summary>
     /// キネクトに必要な変数の宣言等
-    /// 基本的にはBody関連のみ取り扱うつもり
+    /// 基本的にはBody関連のみ取り扱うつもり(追記、Faceも追加してみました)
     /// じゃんけん用の処理とかついてるけど、あくまでおまけなんだからね！・・・おまけってことにしてください（切実
     /// </summary>
     class KinectUtil
@@ -45,6 +46,33 @@ namespace WpfApplication1.CLass
         /// </summary>
         Body dummyBody = null;
 
+        /// <summary>
+        /// 顔情報を保存するための変数
+        /// </summary>
+        private FaceFrameSource faceFrameSource = null;
+
+        /// <summary>
+        /// 顔フレームリーダー
+        /// </summary>
+        private FaceFrameReader faceFrameReader = null;
+
+        /// <summary>
+        /// 顔情報の分析を行う項目・・・らしい
+        /// </summary>
+        private const FaceFrameFeatures DefaultFaceFrameFeatures =
+                       FaceFrameFeatures.BoundingBoxInColorSpace |
+                       FaceFrameFeatures.PointsInColorSpace |
+                       FaceFrameFeatures.RotationOrientation |
+                       FaceFrameFeatures.FaceEngagement |
+                       FaceFrameFeatures.Glasses |
+                       FaceFrameFeatures.Happy |
+                       FaceFrameFeatures.LeftEyeClosed |
+                       FaceFrameFeatures.RightEyeClosed |
+                       FaceFrameFeatures.LookingAway |
+                       FaceFrameFeatures.MouthMoved |
+                       FaceFrameFeatures.MouthOpen;
+
+
         /*---------------------------------------------------------------
         以下、ゲッタ、セッタの宣言
         ---------------------------------------------------------------*/
@@ -75,6 +103,18 @@ namespace WpfApplication1.CLass
         {
             set { this.dummyBody = value; }
             get { return dummyBody; }
+        }
+
+        public FaceFrameSource FFS
+        {
+            set { this.faceFrameSource = value; }
+            get { return faceFrameSource; }
+        }
+
+        public FaceFrameReader FFR
+        {
+            set { this.faceFrameReader = value; }
+            get { return faceFrameReader; }
         }
 
         /*-----------------------------------------------------------
